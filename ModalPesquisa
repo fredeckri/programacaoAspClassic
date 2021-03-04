@@ -149,15 +149,43 @@ $("#btnPesquisarOco").click(function(){
         justificadas = $("#idJustificadasPesquisa :selected").val();
         homologadas = $("#idHomologadasPesquisa :selected").val();
         periodo = $("#idPeriodoPesquisa :selected").val();
-
-     console.log({convenio,justificadas,homologadas,periodo});
+    console.log({convenio,justificadas,homologadas,periodo});
+     $("#btnPesquisarOco").css("opacity",0.5).prop("disabled",true)
+     $("#btnFecharPesquisa").css("opacity",0.5).prop("disabled",true)
+    //simulação de requisição
+    setTimeout(() => {
+        $("#btnPesquisarOco").css("opacity",1).prop("disabled",false)   
+        $("#btnFecharPesquisa").css("opacity",1).prop("disabled",false)   
+         console.log("Tabela retornada com sucesso!")
+    }, 5000);
+    
+    
       
     })
 
 
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      
+      console.log(this.responseText);
+      console.log("Requisição finalizada com sucesso!");
+    }
+    if (this.readyState == 4 && this.status == 403) {
+      console.log("Erro na requisição 403");
+    }
+    if (this.readyState == 4 && this.status == 404) {
+      console.log("Erro na requisição 404");
+    }
+  };
+  xhttp.open("GET", "../../PldNovo/PldNovo/_includes/_components/_SuperBreadcrump02.asp", true); //async
+  xhttp.send();
+}
+
 
     $("#btnFecharPesquisa").click(function(){
-
+        loadDoc()
          $('#ModalTablesOcorrencia').modal('hide')
     })
 </script>
