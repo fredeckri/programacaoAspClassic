@@ -198,4 +198,7 @@ function loadDoc() {
             showConfirmButton: false,
             timer: 2300
         })}
+        //opcional $("#idConvenioPesquisa").val(0).prop("selected",true)
+        
 </script>
+
