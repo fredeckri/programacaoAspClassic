@@ -1,3 +1,5 @@
+document.getElementById('itensBreadcrumb')
+
 a = `<li id=\"Caixa_BC02\" class=\"breadcrumb-item\"><a href=\"#\">CAIXA</a></li>
         <li id=\"Suv_BC02\" class=\"breadcrumb-item\"><a href=\"#\">SUV4 - CENTRO-OESTE</a></li>
         <li id=\"Sr_BC02\" class=\"breadcrumb-item\"><a href=\"#\">BRASILIA SUL, DF</a></li>
