@@ -16,3 +16,55 @@ SELECT [idaluno]
 GO
 
 --padrão para pesquisa
+
+
+USE [escolati]
+GO
+declare @pConvenio int = 2, @pHomologacao int = 3, @pJustificativa int = 3, @periodo int = 30 --02-04
+	declare @data date = getdate()
+	
+	declare @pesqConvenio int
+	--PESQUISA PELA DIFERENÇA
+	
+		select @pConvenio = 
+		CASE 
+			when @pConvenio=0 then  --UL 
+			04
+			when @pConvenio=1 then  --CCA
+			02
+		else
+			99
+		end
+	
+	select @pHomologacao = 
+		CASE 
+			when @pHomologacao=0 then  -- NÃO HOMOLOGADAS 
+			1 -- DIFERENTE DE 1
+			when @pHomologacao=1 then  -- HOMOLOGADAS 
+			0
+		else
+			3
+		end
+
+SELECT [idaluno]
+      ,[nome]
+      ,[cpf]
+      ,[datacadastro]
+      ,[sobrenome]
+      ,[iopcao]
+  FROM [dbo].[aluno]
+where iopcao<>(CASE 
+			when @pHomologacao=0 then  -- NÃO HOMOLOGADAS 
+			1 -- DIFERENTE DE 1
+		else
+			0
+		end) or
+		iopcao<>(CASE 
+			when @pHomologacao=1 then  -- HOMOLOGADAS 
+			0 -- DIFERENTE DE 0
+		end)
+		
+		and datacadastro between cast(dateadd (day,-@periodo,getdate()) as date) and @data
+GO
+
+
