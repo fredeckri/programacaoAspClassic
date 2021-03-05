@@ -1,0 +1,320 @@
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<style>
+.zoom {
+  padding: 5px;
+  
+  transition: transform .2s; /* Animation */
+  /*box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2)*/
+  
+}
+
+.zoom:hover {
+  transform: scale(1.2);
+  /*box-shadow: 0 3px 3px 0 rgba(0,0,0,0.2)*/ /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+</style>
+<!-- Modal -->
+<div class="modal fade modal-fullscreen" id="ModalTablesOcorrencia" tabindex="-1" role="dialog"
+    aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content full_modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="TituloModalCentralizado">Painel PLD - Pesquisa de Ocorrências</h5>
+                
+            </div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#tratamentoPesquisa" role="tab">
+                        <span class="hidden-sm-up"><i class="ti-home"></i></span>
+                        <span class="hidden-xs-down">Pesquisa</span></a>
+                </li>
+                 
+            </ul>
+            <!-- Nav tabs -->
+            <!--panel-->
+            <div class="tab-content tabcontent-border">
+                <!--Aba01-->
+                <div class="tab-pane active  p-20" id="tratamentoPesquisa" role="tabpanel">
+                    <div class="modal-body">
+                        <!-- .row -->
+                        <div class="row">
+                        
+                            <div class="form-row align-items-center">
+                             <div class="col-12 my-2">
+                                <label class="mr-sm-2" for="inlineFormCustomSelect">Convênio</label>
+                                <select class="custom-select mr-sm-2 pointer" id="idConvenioPesquisa">
+                                    <option value="3" selected >TODOS</option>
+                                    <option value="0" >UL</option>
+                                    <option value="1" >CCA</option>
+                                    
+                                    
+                                </select>
+                                </div>
+                                <div class="col-12 my-2">
+                                <label class="mr-sm-2" for="inlineFormCustomSelect">Ocorrências Justificadas</label>
+                                <select class="custom-select mr-sm-2 pointer" id="idJustificadasPesquisa">
+                                    <option value="3" >TODOS</option>
+                                    <option value="0" >NÃO</option>
+                                    <option value="1">SIM</option>
+                                    
+                                </select>
+                                </div>
+                                <div class="col-12 my-2">
+                                <label class="mr-sm-2" for="inlineFormCustomSelect">Ocorrências Homologadas</label>
+                                <select class="custom-select mr-sm-2 pointer" id="idHomologadasPesquisa">
+                                    <option value="3"  >TODOS</option>
+                                    <option value="0">NÃO</option>
+                                    <option value="1" >SIM</option>
+                                    
+                                </select>
+                                </div>
+                                <div class="col-12 my-2">
+                                <label class="mr-sm-2 badge-warning" id="labelPeriodo" for="inlineFormCustomSelect">Pesquisa por Período</label>
+                                <input type="radio" value="1" name="opPesquisa" id="opPesquisa">
+                                <input type="radio" name="opPesquisa" id="opPesquisa_">
+                                </div>
+                                
+                                <div class="col-12 my-2" id="opcaoPeriodo1">
+                                <label class="mr-sm-2" for="inlineFormCustomSelect">Período</label><br>
+                                <label>Mês</label>
+                                <select class="form-control" id="mesFiltro"></select>
+                                    
+                                </select>
+                                <label>Ano</label>
+                                <select class="form-control" id="anoFiltro"></select>
+                                </div>
+
+                                <div class="col-12 my-2" id="opcaoPeriodo2">
+                                <label class="mr-sm-2" for="inlineFormCustomSelect">Período em dias</label>
+                                <select class="custom-select mr-sm-2 pointer" id="idPeriodoPesquisa">
+                                    <option value="15" >15 dias</option>
+                                    <option value="30" >30 dias</option>
+                                    <option value="60" >60 dias</option>
+                                    <option value="90" >90 dias</option>
+                                    <option value="180" >180 dias</option>
+                                    <option value="360" >360 dias</option>
+                                    <option value="1825" >Últimos 5 anos</option>
+                                </select>
+                                </div>
+                                
+                            </div>
+                        
+                        </div>
+                        <!-- .row -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="col-6 btn btn-success" id="btnPesquisarOco">Pesquisar</button>
+                        <button type="button" class="col-6 btn btn-danger" id="btnFecharPesquisa">Fechar</button>
+                    </div>
+
+
+
+                </div>
+                <!--Aba01-->
+              
+            </div>
+            <!--panel-->
+        </div>
+    </div>
+</div>
+
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+            <div class="submit-line">
+            <input type="text" />
+            <button class="submit-lente btn btn-light" style="border-radius:25px;"  data-toggle="modal" data-target="#ModalTablesOcorrencia">
+                <i class="fa fa-search pointer"></i>
+            </button>
+            </div>
+
+<!--configuração Modal-->
+<script>
+
+/*
+NOVO CRITÉRIO PARA PESQUISA DEVIDO LIMITAÇÕES DE INFRAESTRUTURA
+SESSION("MZ/SR/SEV/PV") - 
+
+
+
+SESSION("USERVINCULACAO") = {DESCRICAO:"PARA TODOS OS EMPREGADOS TERÃO SP POR NIVEL MENOS MZ"
+,EXEMPLO:"SP_SEV,SP_PV,SP_SR" WHERE CODUNIDADE="CODVINCULACAO"}
+
+*/
+    $(function () {
+        divModal = "#ModalTablesOcorrencia";
+        $(divModal).modal({
+            backdrop: false,
+            show: false,
+            handleUpdate: true,
+            keyboard: false
+
+        });
+
+        $(divModal).on('hidden.bs.modal', function (e) {
+            //
+            convenio = $("#idConvenioPesquisa").val(0);
+            justificadas = $("#idJustificadasPesquisa").val(0);
+            homologadas = $("#idHomologadasPesquisa").val(0);
+            periodo = $("#idPeriodoPesquisa").val(15);
+       
+        })
+
+        $(divModal).on('show.bs.modal', function (e) {
+            //
+            convenio = $("#idConvenioPesquisa").val(0);
+            justificadas = $("#idJustificadasPesquisa").val(0);
+            homologadas = $("#idHomologadasPesquisa").val(0);
+            periodo = $("#idPeriodoPesquisa").val(15);
+        })
+    });
+
+    //alternar homologadas
+    $("#idHomologadasPesquisa").change(function(){
+        
+        if (($(this).val()==1) || ($(this).val()==3))
+        $("#idJustificadasPesquisa").val(1)
+
+    })
+
+     $("#idJustificadasPesquisa").change(function(){
+        
+        if (($(this).val()==0) || ($(this).val()==3))
+        $("#idHomologadasPesquisa").val(0)
+
+    })
+
+
+
+$("#btnPesquisarOco").click(function(){
+
+    let convenio,justificadas,homologadas,periodo,dados={};
+
+        convenio = $("#idConvenioPesquisa :selected").val();
+        justificadas = $("#idJustificadasPesquisa :selected").val();
+        homologadas = $("#idHomologadasPesquisa :selected").val();
+        
+        opPesquisa = $("#opPesquisa").val();
+
+        if (opPesquisa==1)
+        {
+        
+        mes = $("#mesFiltro").val();
+        ano = $("#anoFiltro").val();
+        dados = {convenio,justificadas,homologadas,mes,ano}
+        console.log(dados);
+        
+        }
+        if (opPesquisa==2)
+        {
+            
+        periodo = $("#idPeriodoPesquisa :selected").val();
+        dados = {convenio,justificadas,homologadas,periodo}
+        console.log(dados);
+        
+        }
+
+        
+    
+    $("#btnPesquisarOco").css("opacity",0.5).prop("disabled",true)
+     $("#btnFecharPesquisa").css("opacity",0.5).prop("disabled",true)
+        Swal.fire({
+            position: 'top-end',
+            icon: 'info',
+            title: 'Tabela',
+            text: 'Tabela em construção!',
+            showConfirmButton: false,
+            timer: 4000
+        })
+    //simulação de requisição
+    setTimeout(() => {
+
+         Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Tabela',
+            text: 'Tabela retornada com êxito!',
+            showConfirmButton: false,
+            timer: 1000
+        })
+
+
+        $("#btnPesquisarOco").css("opacity",1).prop("disabled",false)   
+        $("#btnFecharPesquisa").css("opacity",1).prop("disabled",false)   
+         console.log("Tabela retornada com sucesso!")
+    }, 5000);
+    
+    
+      
+    })
+        //default
+        $("#opPesquisa").val(1);
+        $("#opPesquisa").prop("checked",true);
+        $("#opcaoPeriodo1").css("display","block")
+        $("#opcaoPeriodo2").css("display","none")
+        //default
+
+    $("#opPesquisa").click(function(){
+        $("#opPesquisa").val(1);
+        $("#labelPeriodo").text("Pesquisa por Mês e Ano")
+        $("#opcaoPeriodo1").css("display","block")
+        $("#opcaoPeriodo2").css("display","none")
+    });
+    
+    $("#opPesquisa_").click(function(){
+        $("#opPesquisa").val(2);
+        $("#labelPeriodo").text("Pesquisa por Dias")
+        $("#opcaoPeriodo1").css("display","none")
+        $("#opcaoPeriodo2").css("display","block")
+    });
+
+
+let popula = function (){
+        let ano=[],mes=[];
+        ano_ = new Date();
+
+        for(let i=0;i<7;i++)
+        {
+        ano.push(ano_.getFullYear()-i)
+        }
+        
+        mes_desc=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
+        
+        let val_mes='';
+        let val_ano='';
+        mes_desc.forEach(function(item,indice){
+            val_mes+=`<option value='${indice+1}'>${item}</option>`;
+        });
+        ano.forEach(function(item){
+            val_ano+=`<option value='${item}'>${item}</option>`;
+        });
+
+        $("#mesFiltro").append(val_mes);
+        $("#anoFiltro").append(val_ano);
+    }
+    
+popula();
+function loadDoc() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      
+      console.log(this.responseText);
+      console.log("Requisição finalizada com sucesso!");
+    }
+    if (this.readyState == 4 && this.status == 403) {
+      console.log("Erro na requisição 403");
+    }
+    if (this.readyState == 4 && this.status == 404) {
+      console.log("Erro na requisição 404");
+    }
+  };
+  xhttp.open("GET", "../../PldNovo/PldNovo/_includes/_components/_SuperBreadcrump02.asp", true); //async
+  xhttp.send();
+}
+
+    $("#btnFecharPesquisa").click(function(){
+        loadDoc()
+         $('#ModalTablesOcorrencia').modal('hide')
+    })
+</script>
