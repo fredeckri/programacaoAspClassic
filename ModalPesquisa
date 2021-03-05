@@ -199,6 +199,30 @@ function loadDoc() {
             timer: 2300
         })}
         //opcional $("#idConvenioPesquisa").val(0).prop("selected",true)
+            let popula = function (){
+        let ano=[],mes=[];
+        ano_ = new Date();
+
+        for(let i=0;i<7;i++)
+        {
+        ano.push(ano_.getFullYear()-i)
+        }
         
+        mes_desc=['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
+        
+        let val_mes='';
+        let val_ano='';
+        mes_desc.forEach(function(item,indice){
+            val_mes+=`<option value='${indice+1}'>${item}</option>`;
+        });
+        ano.forEach(function(item){
+            val_ano+=`<option value='${item}'>${item}</option>`;
+        });
+
+        $("#mesFiltro").append(val_mes);
+        $("#anoFiltro").append(val_ano);
+    }
+    
+    popula();
 </script>
 
