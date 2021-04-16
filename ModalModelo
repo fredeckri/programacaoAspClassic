@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Modelo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>        
+</head>
+<body>
+    
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<style scoped>
+.zoom {
+  padding: 5px;
+  
+  transition: transform .2s; /* Animation */
+  /*box-shadow: 0 1px 1px 0 rgba(0,0,0,0.2)*/
+  
+}
+
+.zoom:hover {
+  transform: scale(1.2);
+  /*box-shadow: 0 3px 3px 0 rgba(0,0,0,0.2)*/ /* (150% zoom - Note: if the zoom is too large, it will go outside of the viewport) */
+}
+
+.btnVisita {
+    width: 150px;
+    text-align: center;
+}
+.botao {
+
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+.botao button{
+    margin:150px;
+    width: 120px;
+    height: 60px;
+}
+
+
+</style>
+<!-- Modal -->
+
+<div class="modal fade modal-fullscreen" id="ModalValidacao" tabindex="-1" role="dialog"
+    aria-labelledby="TituloModalCentralizado" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+        <div class="modal-content full_modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title " id="TituloModalCentralizado">Relatório de Vísitas</h5>
+                
+            </div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#validacaoModal" role="tab">
+                        <span class="hidden-sm-up"><i class="ti-home"></i></span>
+                        <span class="hidden-xs-down">Validação</span></a>
+                </li>
+                 
+            </ul>
+            <!-- Nav tabs -->
+            <!--panel-->
+            <div class="tab-content tabcontent-border">
+                <!--Aba01-->
+                <div class="tab-pane active  p-20" id="validacaoModal" role="tabpanel">
+                    <div class="modal-body">
+                        <!-- .row -->
+                        <div class="row col-12">
+                        
+                            <div class="form-row align-items-center" style="text-align: center;">                            
+                                
+                                <h3>Deseja efetuar a validação desta visita?</h3>
+                                <p class="col-12 bg-warning text-justify"><b>Convênio: </b>000000000</p>
+                                <p class="col-12 bg-warning text-justify"><b>Data: </b>00/00/0000</p>
+                            </div>
+                        
+                        </div>
+                        <!-- .row -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btnVisita col-8 btn btn-success" id="btnValidacao">Validar</button>
+                        <button type="button" class="btnVisita col-6 btn btn-danger" id="btnCancelar">Cancelar</button>
+                    </div>
+
+
+
+                </div>
+                <!--Aba01-->
+              
+            </div>
+            <!--panel-->
+        </div>
+    </div>
+</div>
+
+  <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+                <div class="botao">
+                <button type="button" class="btn-success col-8 "  data-toggle="modal" data-target="#ModalValidacao">
+                    MODAL
+                </button>
+                </div>
+            
+
+<!--configuração Modal-->
+<script>
+
+/*
+NOVO CRITÉRIO PARA PESQUISA DEVIDO LIMITAÇÕES DE INFRAESTRUTURA
+SESSION("MZ/SR/SEV/PV") - 
+
+
+
+SESSION("USERVINCULACAO") = {DESCRICAO:"PARA TODOS OS EMPREGADOS TERÃO SP POR NIVEL MENOS MZ"
+,EXEMPLO:"SP_SEV,SP_PV,SP_SR" WHERE CODUNIDADE="CODVINCULACAO"}
+
+*/
+    $(function () {
+        divModal = "#ModalValidacao";
+        $(divModal).modal({
+            backdrop: false,
+            show: false,
+            handleUpdate: true,
+            keyboard: false
+
+        });
+
+        $(divModal).on('hidden.bs.modal', function (e) {
+            //
+            convenio = $("#idConvenioPesquisa").val(0);
+            justificadas = $("#idJustificadasPesquisa").val(0);
+            homologadas = $("#idHomologadasPesquisa").val(0);
+            periodo = $("#idPeriodoPesquisa").val(15);
+       
+        })
+
+        $(divModal).on('show.bs.modal', function (e) {
+            //
+            convenio = $("#idConvenioPesquisa").val(0);
+            justificadas = $("#idJustificadasPesquisa").val(0);
+            homologadas = $("#idHomologadasPesquisa").val(0);
+            periodo = $("#idPeriodoPesquisa").val(15);
+        })
+    });
+
+    //alternar homologadas
+    $("#idHomologadasPesquisa").change(function(){
+        
+        if (($(this).val()==1) || ($(this).val()==3))
+        $("#idJustificadasPesquisa").val(1)
+
+    })
+
+     $("#idJustificadasPesquisa").change(function(){
+        
+        if (($(this).val()==0) || ($(this).val()==3))
+        $("#idHomologadasPesquisa").val(0)
+
+    })
+
+
+
+$("#btnValidacao").click(function(){
+    
+    //ajax ...
+    /*
+    resp 1=>
+    resp 0=>
+    */
+    //simulação de requisição
+    $("#btnValidacao").css("opacity",0.5).prop("disabled",true)
+    $("#btnCancelar").css("opacity",0.5).prop("disabled",true)
+        Swal.fire({
+            position: 'top-end',
+            icon: 'info',
+            title: 'Validação',
+            text: 'Validação está sendo efetuada!',
+            showConfirmButton: false,
+            timer: 2000
+        })
+    //simulação de requisição
+        setTimeout(() => {
+
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Validação',
+                text: 'Validação efetuada com êxito!',
+                showConfirmButton: false,
+                timer: 1000
+            })
+
+
+            $("#btnValidacao").css("opacity",1).prop("disabled",false)   
+            $("#btnCancelar").css("opacity",1).prop("disabled",false)   
+            console.log("Validação efetuada com sucesso!")
+            $('#ModalValidacao').modal('hide');
+        }, 5000);
+    
+    
+      
+    })
+
+
+
+    $("#btnCancelar").click(function(){
+         $('#ModalValidacao').modal('hide');
+    })
+
+</script>
+
+</body>
+</html>
