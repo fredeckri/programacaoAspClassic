@@ -1,0 +1,86 @@
+<%
+'set variaveis vindo do sgbd'
+Dim max,min
+max=200
+min=1
+Randomize
+'response.write()
+Dim cardSev(4)
+cardSev(0)=Int((max-min+1)*Rnd+min)
+cardSev(1)=Int((max-min+1)*Rnd+min)
+cardSev(2)=Int((max-min+1)*Rnd+min)
+cardSev(3)=Int((max-min+1)*Rnd+min)
+cardSev(4)=Int((max-min+1)*Rnd+min)
+
+
+%>
+
+<!--TICKETS SEV-->
+<div class="row col-13 ">
+    <!-- Column -->
+    <div class="col-md mr-1">
+        <div class="card card-hover pldCards">
+            <div class="box bg-light text-center">
+                <h1 class="font-light text-dark"><%=cardSev(0)%></h1>
+
+            </div>
+            <h6 class="text-dark text-md-center mt-1 fontCardsPld">Ocorrências</h6>
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md mr-1">
+        <div class="card card-hover pldCards">
+            <div class="box bg-light text-center">
+                <h1 class="font-light text-danger"><%=cardSev(1)%></h1>
+
+            </div>
+            <h6 class="text-dark text-md-center mt-1 fontCardsPld"><i class="far fa-clock">&nbsp</i>Em Atraso</h6>
+        </div>
+    </div>
+
+    <div class="col-md-5 row mr-1 ml-1 h-50">
+        <div class="col-6" style="background-color: darkgrey; height: 100px;">
+
+            <div class="card card-hover pldCards" >
+                <div class="box bg-info text-center" data-toggle="modal" data-target="#ModalSevJustificativa">
+                    <h1 class="font-light text-white"><%=cardSev(2)%></h1>
+
+                </div>
+                <h6 class="text-dark text-md-center mt-1 fontCardsPld">Justificativa</h6>
+            </div>
+
+        </div>
+        <div class="col-6" style="background-color: darkgrey; height: 100px;">
+            <div class="card card-hover pldCards">
+                <div class="box bg-primary text-center">
+                    <h1 class="text-white "><%=cardSev(3)%></h1>
+
+                </div>
+                <h6 class="text-dark text-md-center mt-1 fontCardsPld" style="font-size: 14px;">Homologação</h6>
+            </div>
+
+        </div>
+
+        <div class="col-12" style="background-color: darkgrey; height: 30px;">
+
+
+            <h6 class="text-dark text-md-center mt-1 fontCardsPld " style="font-weight: 800;"><i
+                    class="fas fa-exclamation-triangle fa-lg text-danger"></i>&nbsp</i>Ações Pendentes</h6>
+
+
+        </div>
+    </div>
+    <!-- Column -->
+    <div class="col-md">
+        <div class="card card-hover pldCards pldCards">
+            <div class="box bg-warning text-center">
+                <h1 class="font-light text-white"><%=cardSev(4)%></h1>
+
+            </div>
+            <h6 class="text-dark text-md-center mt-1 fontCardsPld"><i
+                    class="fas fa-check text-success">&nbsp</i>Concluídas</h6>
+        </div>
+    </div>
+
+</div>
+<!--TICKETS AG-->
